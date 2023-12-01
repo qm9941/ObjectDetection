@@ -39,6 +39,10 @@ experiments/
 Workspace has been used as provided, no changes where needed.
 
 ## Exploratory Data Analysis
+|<img src="RawImages/0.png" width="300" height="300">|<img src="RawImages/1.png" width="300" height="300">|<img src="RawImages/2.png" width="300" height="300">|
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img src="RawImages/3.png" width="300" height="300">|<img src="RawImages/4.png" width="300" height="300">|<img src="RawImages/5.png" width="300" height="300">|
+|<img src="RawImages/6.png" width="300" height="300">|<img src="RawImages/7.png" width="300" height="300">|<img src="RawImages/8.png" width="300" height="300">|
 
 You should use the data already present in `/home/workspace/data/waymo` directory to explore the dataset! This is the most important task of any machine learning project. To do so, open the `Exploratory Data Analysis` notebook. In this notebook, your first task will be to implement a `display_instances` function to display images and annotations using `matplotlib`. This should be very similar to the function you created during the course. Once you are done, feel free to spend more time exploring the data and report your findings. Report anything relevant about the dataset in the writeup.
 
