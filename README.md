@@ -40,6 +40,7 @@ experiments/
 Workspace has been used as provided, no changes where made. Udacity provided information about the requirments for running the scripts on a machine other than the workspace, those infos can be found in folder "build".
 
 ## Exploratory Data Analysis
+### Preview of images
 The following images are randomly picked from the data set. The image title is the brightness of the image, the intention is to get an idea how the brightness value maps to an image so the histogram in the following analysis can be interpreted.<br>
 Object classes of the boundig boxes are color coded:
 |Object class|Color|
@@ -52,6 +53,24 @@ Object classes of the boundig boxes are color coded:
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img src="RawImages/3.png" width="300" height="300">|<img src="RawImages/4.png" width="300" height="300">|<img src="RawImages/5.png" width="300" height="300">|
 |<img src="RawImages/6.png" width="300" height="300">|<img src="RawImages/7.png" width="300" height="300">|<img src="RawImages/8.png" width="300" height="300">|
+
+### Plan for further data analysis
+The training and validation data set shall be compared.<br> 
+The following stats shall be calculated for every frame in the datasets:
+- Number of objects
+- Number of vehicles
+- Number of pedestrians
+- Number of cyclist
+- Brightness of image
+
+### Histograms
+#### Number of objects
+#### Number of vehicles
+#### Number of pedestrians
+#### Number of cyclist
+#### Brightness of image
+### Summary
+
 
 You should use the data already present in `/home/workspace/data/waymo` directory to explore the dataset! This is the most important task of any machine learning project. To do so, open the `Exploratory Data Analysis` notebook. In this notebook, your first task will be to implement a `display_instances` function to display images and annotations using `matplotlib`. This should be very similar to the function you created during the course. Once you are done, feel free to spend more time exploring the data and report your findings. Report anything relevant about the dataset in the writeup.
 
