@@ -2,7 +2,7 @@
 
 ## Project overview
 
-Goal of the project is, to apply the skills gained in the computer vision course, which is part of the Self Driving Car Engineer Nanodegree program.
+Goal of the project is, to apply the skills gained in the computer vision course, which is part of the Self Driving Car Engineer Nanodegree program. Object detection is useful in autonomous vehicle as camera are relatively cheap sensor with a high resoluion, which allows detection of mupltiple object of different sizes.
 A convolutional neural network will be used to detect and classify objects originating from [Waymo Open dataset](https://waymo.com/open/). Specifically, the classes of object shall be detected in image taken by the front camera of a vehicle: cyclists, pedestrians and vehicles.
 
 In the first step, an exploratory data analysis will be performed to gain some knowlegde about the data set. Then a pretrained Resnet50 model will be trained on the training data, validated and hyperparameters tuned if needed.
@@ -12,12 +12,13 @@ In the first step, an exploratory data analysis will be performed to gain some k
 ### Data
 
 The data files can be downloaded directly from the Waymo website as tar files or from the [Google Cloud Bucket](https://console.cloud.google.com/storage/browser/waymo_open_dataset_v_1_2_0_individual_files/) as individual tf records.
-For the project, I used the data which was readily available in the Udacity project workspace.
+The Udacity project workspace has been used for the project. The workspace has the data already readily available.
 
-The data in the workspace was already partitioned into 3 splits:
-/home/workspace/home/data/train - 86 files
-/home/workspace/home/data/val - 10 files
-/home/workspace/home/data/test - 3 files
+The data in the workspace was already partitioned into 3 splits:<br>
+/home/workspace/home/data/train - 86 files<br>
+/home/workspace/home/data/val - 10 files<br>
+/home/workspace/home/data/test - 3 files<br>
+
 
 ### Experiments
 The experiments folder will be organized as follow:
@@ -36,9 +37,17 @@ experiments/
 
 ## Prerequisites
 
-Workspace has been used as provided, no changes where needed.
+Workspace has been used as provided, no changes where made. Udacity provided information about the requirments for running the scripts on a machine other than the workspace, those infos can be found in folder "build".
 
 ## Exploratory Data Analysis
+The following images are randomly picked from the data set. The image title is the brightness of the image, the intention is to get an idea how the brightness value maps to an image so the histogram in the following analysis can be interpreted.<br>
+Object classes of the boundig boxes are color coded:
+|Object class|Color|
+|------------|-------|
+|Vehicles|red|
+|Pedestrian|green|
+|Cyclists|blue|
+
 |<img src="RawImages/0.png" width="300" height="300">|<img src="RawImages/1.png" width="300" height="300">|<img src="RawImages/2.png" width="300" height="300">|
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img src="RawImages/3.png" width="300" height="300">|<img src="RawImages/4.png" width="300" height="300">|<img src="RawImages/5.png" width="300" height="300">|
