@@ -65,27 +65,20 @@ The following stats shall be calculated for every frame in the datasets:
 
 ### Histograms
 #### Number of objects
+![local image](EDA/HistNumObj.png)
 #### Number of vehicles
+![local image](EDA/HistNumVeh.png)
 #### Number of pedestrians
+![local image](EDA/HistNumPed.png)
 #### Number of cyclist
+![local image](EDA/HistNumCyc.png)
 #### Brightness of image
+![local image](EDA/HistBrightness.png)
 ### Summary
+The trainung data set contains 1719 and the validation data set 198 individual pictures. According to the histogram plot as well as to the median in the descriptive statistics, the validation data set generally contains more objects per frame compared with the training data set.
+In both data set, there are almost no cyclists. Most of the objects are vehicles.
+The average image brightness is quite compareable in both data sets, though the validation set does not contain really dim images.
 
-
-You should use the data already present in `/home/workspace/data/waymo` directory to explore the dataset! This is the most important task of any machine learning project. To do so, open the `Exploratory Data Analysis` notebook. In this notebook, your first task will be to implement a `display_instances` function to display images and annotations using `matplotlib`. This should be very similar to the function you created during the course. Once you are done, feel free to spend more time exploring the data and report your findings. Report anything relevant about the dataset in the writeup.
-
-Keep in mind that you should refer to this analysis to create the different spits (training, testing and validation).
-
-
-### Create the training - validation splits
-In the class, we talked about cross-validation and the importance of creating meaningful training and validation splits. For this project, you will have to create your own training and validation sets using the files located in `/home/workspace/data/waymo`. The `split` function in the `create_splits.py` file does the following:
-* create three subfolders: `/home/workspace/data/train/`, `/home/workspace/data/val/`, and `/home/workspace/data/test/`
-* split the tf records files between these three folders by symbolically linking the files from `/home/workspace/data/waymo/` to `/home/workspace/data/train/`, `/home/workspace/data/val/`, and `/home/workspace/data/test/`
-
-Use the following command to run the script once your function is implemented:
-```
-python create_splits.py --data-dir /home/workspace/data
-```
 
 ### Edit the config file
 
