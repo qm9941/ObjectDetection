@@ -110,7 +110,7 @@ As a result, the learning rate was kept as in the reference in the next experime
 **Experiment4** (adam optimizer with useful learning rate) did perform better than all previous experiment including the reference experiments. Due to memory exhaustion in the workspace, the learning process has been killed at around step 1300 (out of 2500). The evaluation process also ended prematurely, because the option "include_metrics_per_category: true" added in the eval_config led to an error. The classification loss showed an increase at about step 200, which might be due to transitioning from "warmup_learning_rate: 0.0001" to "learning_rate_base: 0.0004". Therefor for the next and final experiment, the "cosine decay learning rate" was replaced by a "manual step learning rate" with a "initial_learning_rate: 0.0002".<br>
 **Final** (adam optimizer, manual_step_learning_rate scheme used starting at initial_learning_rate=0.0002) had a classification loss during training which was even lower than in experiment4. The verification resulted in precision and recall value way better than all the other experiments. Especially large object are classfied reasonably good, however medium and small sized object detection and classification still needs to be improved.
           
-##### Comparison with ground truth
+#### Comparison with ground truth
 To give an idea of how the experiments performance compare, for one picture out of the validation set a side-by-side comparison of the objects detected by the model and the ground truth is shown.<br>
 ___
 Reference
@@ -125,45 +125,37 @@ ___
 Experiment3
 ![local image](experiments/experiment3/exp3.png)
 ___
-Experiment4
+Experiment4<br>
 Verification step failed, therefore no image.
 ___
 Final
 ![local image](experiments/final/final.png)
 ___
 
-### Creating an animation
-#### Export the trained model
-Modify the arguments of the following function to adjust it to your models:
-
+### Animation of the object detection model applied to test data
+#### Prerequisites
+The model was exported using the following command:
 ```
 python experiments/exporter_main_v2.py --input_type image_tensor --pipeline_config_path experiments/reference/pipeline_new.config --trained_checkpoint_dir experiments/reference/ --output_directory experiments/reference/exported/
 ```
-
-This should create a new folder `experiments/reference/exported/saved_model`. You can read more about the Tensorflow SavedModel format [here](https://www.tensorflow.org/guide/saved_model).
-
-Finally, you can create a video of your model's inferences for any tf record file. To do so, run the following command (modify it to your files):
+Than animated GIF files of the reference model and the final model inferences on three tf record files have been created:
 ```
 python inference_video.py --labelmap_path label_map.pbtxt --model_path experiments/reference/exported/saved_model --tf_record_path /data/waymo/testing/segment-12200383401366682847_2552_140_2572_140_with_camera_labels.tfrecord --config_path experiments/reference/pipeline_new.config --output_path animation.gif
 ```
+___
+**Refererence model**<br>
+The reference model performs not well at night, slightly better during daylight.
+![local image](experiments/reference/animation1.gif)
+![local image](experiments/reference/animation2.gif)
+![local image](experiments/reference/animation3.gif)
+___
+**Final model**
+The final model performs better at night and daylight. The confidence of the detected vehicles is generally higher, even pedrestians occluded by cars are correctly classfied.
+![local image](experiments/final/animation1.gif)
+![local image](experiments/final/animation2.gif)
+![local image](experiments/final/animation3.gif)
+___
 
-## Submission Template
 
-### Project overview
-This section should contain a brief description of the project and what we are trying to achieve. Why is object detection such an important component of self driving car systems?
-
-### Set up
-This section should contain a brief description of the steps to follow to run the code for this repository.
-
-### Dataset
-#### Dataset analysis
-This section should contain a quantitative and qualitative description of the dataset. It should include images, charts and other visualizations.
-#### Cross validation
-This section should detail the cross validation strategy and justify your approach.
-
-### Training
-#### Reference experiment
-This section should detail the results of the reference experiment. It should includes training metrics and a detailed explanation of the algorithm's performances.
-
-#### Improve on the reference
-This section should highlight the different strategies you adopted to improve your model. It should contain relevant figures and details of your findings.
+## Conclusion
+This first project of the Self Driving Car Engineer Nanodegree program has been a interesting and also challenging one. It's clear, that just the surface of the matter could be sratched. The project will serve as a starting point for further exploration in the field of object detection, especially for building intuition about interpreting the metrics and improving the models from there.
