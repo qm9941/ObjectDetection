@@ -96,31 +96,41 @@ In order to improve the object detection performance, five different configurati
 |experiment3|optimizer: adam instead of momentum, learning_rate_base=0.04|
 |experiment4|optimizer adam, learning_rate_base=0.0004|
 |final|optimizer adam, manual_step_learning_rate scheme used starting at initial_learning_rate=0.0002|
-### Performance of the experiments
+For training and evaluation, the config file has been manually changed and then steps 4 to 6 (as described in the previous chapter) repeated.
+
+### Evaluation of the model performance
 #### Metrics
 ![local image](experiments/Tensorboard/TensorBoardLoss.png)
-aaaa
 ![local image](experiments/Tensorboard/TensorBoardPrecision.png)
-aaaa
 ![local image](experiments/Tensorboard/TensorBoardRecall.png)
-
-
-
+**Exeriment1** (increased learning rate) resulted in overall lower performance of the model. The classification loss during training and verification are higher compared to the reference model. Verification resulted in significantly lower precision and recall.<br>
+As a result, the learning rate was kept as in the reference in the next experiment, but additional data augmentation added with ideas taken from [bag-of-tricks-for-image-classification](https://assets.amazon.science/74/02/121df5234881bd2a9bca512a8f1e/bag-of-tricks-for-image-classification.pdf).<br>
+**Exeriment2** (added augmentation) did perform similar than experiment1 during training but showed even worse results during verification. Due to limited GPU time, the decescion had been made to stick to the augmentation of the reference experiment and try a different optimizer in the run.<br>
+**Exeriment3** (adam optimizer) resulted in the worse performance of all experiments. After some research it became clear, that the learning rate carried over from the reference experiment was way to high. The default learing rate of tensorflow is 0.001 for the [adam optimizer](https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/AdamOptimizer). Another (source)[https://www.kdnuggets.com/2022/12/tuning-adam-optimizer-parameters-pytorch.html] suggests a learning rate between 0.0001 and 0.01 for the adam optimizer. So for the next experiment a learning rate at the lower end of the suggested range has been chosen: learning_rate_base=0.0004.<br>
+**Experiment4** (adam optimizer with useful learning rate) did perform better than all previous experiment including the reference experiments. Due to memory exhaustion in the workspace, the learning process has been killed at around step 1300 (out of 2500). The evaluation process also ended prematurely, because the option "include_metrics_per_category: true" added in the eval_config led to an error. The classification loss showed an increase at about step 200, which might be due to transitioning from "warmup_learning_rate: 0.0001" to "learning_rate_base: 0.0004". Therefor for the next and final experiment, the "cosine decay learning rate" was replaced by a "manual step learning rate" with a "initial_learning_rate: 0.0002".<br>
+**Final** (adam optimizer, manual_step_learning_rate scheme used starting at initial_learning_rate=0.0002) had a classification loss during training which was even lower than in experiment4. The verification resulted in precision and recall value way better than all the other experiments. Especially large object are classfied reasonably good, however medium and small sized object detection and classification still needs to be improved.
+          
 ##### Comparison with ground truth
-The picture respresent a side-by-side comparison of the objects detected by the reference model and the ground truth. It can be seen, that only one vehicle is detected with a medium probabilty.
+To give an idea of how the experiments performance compare, for one picture out of the validation set a side-by-side comparison of the objects detected by the model and the ground truth is shown.<br>
+___
+Reference
 ![local image](experiments/reference/ref.png)
-
-
-
-
-Most likely, this initial experiment did not yield optimal results. However, you can make multiple changes to the config file to improve this model. One obvious change consists in improving the data augmentation strategy. The [`preprocessor.proto`](https://github.com/tensorflow/models/blob/master/research/object_detection/protos/preprocessor.proto) file contains the different data augmentation method available in the Tf Object Detection API. To help you visualize these augmentations, we are providing a notebook: `Explore augmentations.ipynb`. Using this notebook, try different data augmentation combinations and select the one you think is optimal for our dataset. Justify your choices in the writeup.
-
-Keep in mind that the following are also available:
-* experiment with the optimizer: type of optimizer, learning rate, scheduler etc
-* experiment with the architecture. The Tf Object Detection API [model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md) offers many architectures. Keep in mind that the `pipeline.config` file is unique for each architecture and you will have to edit it.
-
-**Important:** If you are working on the workspace, your storage is limited. You may to delete the checkpoints files after each experiment. You should however keep the `tf.events` files located in the `train` and `eval` folder of your experiments. You can also keep the `saved_model` folder to create your videos.
-
+___
+Experiment1
+![local image](experiments/experiment1/exp1.png)
+___
+Experiment2
+![local image](experiments/experiment2/exp2.png)
+___
+Experiment3
+![local image](experiments/experiment3/exp3.png)
+___
+Experiment4
+Verification step failed, therefore no image.
+___
+Final
+![local image](experiments/final/final.png)
+___
 
 ### Creating an animation
 #### Export the trained model
