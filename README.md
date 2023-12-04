@@ -2,10 +2,10 @@
 
 ## Project overview
 
-Goal of the project is, to apply the skills gained in the computer vision course, which is part of the Self Driving Car Engineer Nanodegree program. Object detection is useful in autonomous vehicle as camera are relatively cheap sensor with a high resoluion, which allows detection of mupltiple object of different sizes.
+Goal of the project is, to apply the skills gained in the computer vision course, which is part of the Self Driving Car Engineer Nanodegree program. Object detection is useful in autonomous vehicle as camera are relatively cheap sensor with a high resolution, which allows detection of multiple object of different sizes.
 A convolutional neural network will be used to detect and classify objects originating from [Waymo Open dataset](https://waymo.com/open/). Specifically, the classes of object shall be detected in image taken by the front camera of a vehicle: cyclists, pedestrians and vehicles.
 
-In the first step, an exploratory data analysis will be performed to gain some knowlegde about the data set. Then a pretrained Resnet50 model will be trained on the training data, validated and hyperparameters tuned if needed.
+In the first step, an exploratory data analysis will be performed to gain some knowledge about the data set. Then a pretrained Resnet50 model will be trained on the training data, validated and hyperparameters tuned if needed.
 
 ## Structure
 
@@ -35,12 +35,12 @@ experiments/
 
 ## Prerequisites
 
-Workspace has been used as provided, no changes where made. Udacity provided information about the requirments for running the scripts on a machine other than the workspace, those infos can be found in folder "build".
+Workspace has been used as provided, no changes where made. Udacity provided information about the requirements for running the scripts on a machine other than the workspace, those infos can be found in folder "build".
 
 ## Exploratory Data Analysis
 ### Preview of images
 The following images are randomly picked from the data set. The image title is the brightness of the image, the intention is to get an idea how the brightness value maps to an image so the histogram in the following analysis can be interpreted.<br>
-Object classes of the boundig boxes are color coded:
+Object classes of the bounding boxes are color coded:
 |Object class|Color|
 |------------|-------|
 |Vehicles|red|
@@ -75,9 +75,9 @@ The following stats shall be calculated for every frame in the datasets:
 ### EDA Summary
 The training data set contains 1719 and the validation data set 198 individual pictures. According to the histogram plot as well as to the median in the descriptive statistics, the validation data set generally contains more objects per frame compared with the training data set.
 In both data set, there are almost no cyclists. Most of the objects are vehicles.
-The average image brightness is quite compareable in both data sets, though the validation set does not contain really dim images.
+The average image brightness is quite comparable in both data sets, though the validation set does not contain really dim images.
 
-## Training and evalutation of the object detection algorithm
+## Training and evaluation of the object detection algorithm
 ### Reference experiment
 A reference experiment has been provided which has been used as a baseline for further experiments. More information on the 'Single Shot Detector' can be found here [here](https://arxiv.org/pdf/1512.02325.pdf).<br>
 The reference uses a pretrained SSD Resnet 50 640x640 model, which was also used for all further experiments.<br>
@@ -105,10 +105,10 @@ For training and evaluation, the config file has been manually changed and then 
 ![local image](experiments/Tensorboard/TensorBoardRecall.png)
 **Exeriment1** (increased learning rate) resulted in overall lower performance of the model. The classification loss during training and verification are higher compared to the reference model. Verification resulted in significantly lower precision and recall.<br>
 As a result, the learning rate was kept as in the reference in the next experiment, but additional data augmentation added with ideas taken from [bag-of-tricks-for-image-classification](https://assets.amazon.science/74/02/121df5234881bd2a9bca512a8f1e/bag-of-tricks-for-image-classification.pdf).<br>
-**Exeriment2** (added augmentation) did perform similar than experiment1 during training but showed even worse results during verification. Due to limited GPU time, the decescion had been made to stick to the augmentation of the reference experiment and try a different optimizer in the run.<br>
+**Exeriment2** (added augmentation) did perform similar than experiment1 during training but showed even worse results during verification. Due to limited GPU time, the decision had been made to stick to the augmentation of the reference experiment and try a different optimizer in the run.<br>
 **Exeriment3** (adam optimizer) resulted in the worse performance of all experiments. After some research it became clear, that the learning rate carried over from the reference experiment was way to high. The default learing rate of tensorflow is 0.001 for the [adam optimizer](https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/AdamOptimizer). Another (source)[https://www.kdnuggets.com/2022/12/tuning-adam-optimizer-parameters-pytorch.html] suggests a learning rate between 0.0001 and 0.01 for the adam optimizer. So for the next experiment a learning rate at the lower end of the suggested range has been chosen: learning_rate_base=0.0004.<br>
 **Experiment4** (adam optimizer with useful learning rate) did perform better than all previous experiment including the reference experiments. Due to memory exhaustion in the workspace, the learning process has been killed at around step 1300 (out of 2500). The evaluation process also ended prematurely, because the option "include_metrics_per_category: true" added in the eval_config led to an error. The classification loss showed an increase at about step 200, which might be due to transitioning from "warmup_learning_rate: 0.0001" to "learning_rate_base: 0.0004". Therefor for the next and final experiment, the "cosine decay learning rate" was replaced by a "manual step learning rate" with a "initial_learning_rate: 0.0002".<br>
-**Final** (adam optimizer, manual_step_learning_rate scheme used starting at initial_learning_rate=0.0002) had a classification loss during training which was even lower than in experiment4. The verification resulted in precision and recall value way better than all the other experiments. Especially large object are classfied reasonably good, however medium and small sized object detection and classification still needs to be improved.
+**Final** (adam optimizer, manual_step_learning_rate scheme used starting at initial_learning_rate=0.0002) had a classification loss during training which was even lower than in experiment4. The verification resulted in precision and recall value way better than all the other experiments. Especially large object are classified reasonably good, however medium and small sized object detection and classification still needs to be improved.
           
 #### Comparison with ground truth
 To give an idea of how the experiments performance compare, for one picture out of the validation set a side-by-side comparison of the objects detected by the model and the ground truth is shown.<br>
@@ -150,7 +150,7 @@ The reference model performs not well at night, slightly better during daylight.
 ![local image](experiments/reference/animation3.gif)
 ___
 **Final model**
-The final model performs better at night and daylight. The confidence of the detected vehicles is generally higher, even pedrestians occluded by cars are correctly classfied.
+The final model performs better at night and daylight. The confidence of the detected vehicles is generally higher, even pedestrians occluded by cars are correctly classified.
 ![local image](experiments/final/animation1.gif)
 ![local image](experiments/final/animation2.gif)
 ![local image](experiments/final/animation3.gif)
@@ -158,4 +158,4 @@ ___
 
 
 ## Conclusion
-This first project of the Self Driving Car Engineer Nanodegree program has been a interesting and also challenging one. It's clear, that just the surface of the matter could be sratched. The project will serve as a starting point for further exploration in the field of object detection, especially for building intuition about interpreting the metrics and improving the models from there.
+This first project of the Self Driving Car Engineer Nanodegree program has been a interesting and also challenging one. It's clear, that just the surface of the matter could be scratched. The project will serve as a starting point for further exploration in the field of object detection, especially for building intuition about interpreting the metrics and improving the models from there.
