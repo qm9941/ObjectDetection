@@ -28,11 +28,9 @@ experiments/
     - exporter_main_v2.py - to create an inference model
     - model_main_tf2.py - to launch training
     - reference/ - reference training with the unchanged config file
-    - experiment0/ - create a new folder for each experiment you run
-    - experiment1/ - create a new folder for each experiment you run
-    - experiment2/ - create a new folder for each experiment you run
+    - experiment1 .. 4/ - experiments with different parameters
+    - final/ - final training of the model
     - label_map.pbtxt
-    ...
 ```
 
 ## Prerequisites
@@ -74,7 +72,7 @@ The following stats shall be calculated for every frame in the datasets:
 ![local image](EDA/HistNumCyc.png)
 #### Brightness of image
 ![local image](EDA/HistBrightness.png)
-### Summary
+### EDA Summary
 The training data set contains 1719 and the validation data set 198 individual pictures. According to the histogram plot as well as to the median in the descriptive statistics, the validation data set generally contains more objects per frame compared with the training data set.
 In both data set, there are almost no cyclists. Most of the objects are vehicles.
 The average image brightness is quite compareable in both data sets, though the validation set does not contain really dim images.
@@ -89,8 +87,31 @@ Step3: Move the config file `pipeline_new.config` to folder `experiments/referen
 Step4: Launch training process by running `python experiments/model_main_tf2.py --model_dir=experiments/reference/ --pipeline_config_path=experiments/reference/pipeline_new.config`<br>
 Step5: Launch evaluation process by running `python experiments/model_main_tf2.py --model_dir=experiments/reference/ --pipeline_config_path=experiments/reference/pipeline_new.config --checkpoint_dir=experiments/reference/`<br>
 Step6: Check training and evaluation by running `python -m tensorboard.main --logdir experiments/reference/`<br>
-
 ### Improve the performances
+In order to improve the object detection performance, five different configuration changes have been tested. The pretrained model (SSD Resnet 50 640x640) was used for all experiments.<br>
+|Name|Change compared to reference|
+|---|----|
+|experiment1|learning_rate_base changed from 0.04 to 0.08|
+|experiment2|augmentation added: random_adjust_brightness, random_patch_gaussian, learning_rate_base: 0.04|
+|experiment3|optimizer: adam instead of momentum, learning_rate_base=0.04|
+|experiment4|optimizer adam, learning_rate_base=0.0004|
+|final|optimizer adam, manual_step_learning_rate scheme used starting at initial_learning_rate=0.0002|
+### Performance of the experiments
+#### Metrics
+![local image](experiments/Tensorboard/TensorBoardLoss.png)
+aaaa
+![local image](experiments/Tensorboard/TensorBoardPrecision.png)
+aaaa
+![local image](experiments/Tensorboard/TensorBoardRecall.png)
+
+
+
+##### Comparison with ground truth
+The picture respresent a side-by-side comparison of the objects detected by the reference model and the ground truth. It can be seen, that only one vehicle is detected with a medium probabilty.
+![local image](experiments/reference/ref.png)
+
+
+
 
 Most likely, this initial experiment did not yield optimal results. However, you can make multiple changes to the config file to improve this model. One obvious change consists in improving the data augmentation strategy. The [`preprocessor.proto`](https://github.com/tensorflow/models/blob/master/research/object_detection/protos/preprocessor.proto) file contains the different data augmentation method available in the Tf Object Detection API. To help you visualize these augmentations, we are providing a notebook: `Explore augmentations.ipynb`. Using this notebook, try different data augmentation combinations and select the one you think is optimal for our dataset. Justify your choices in the writeup.
 
