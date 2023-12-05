@@ -72,10 +72,13 @@ The following stats shall be calculated for every frame in the datasets:
 ![local image](EDA/HistNumCyc.png)
 #### Brightness of image
 ![local image](EDA/HistBrightness.png)
+### Object number per class in training data
+![local image](EDA/ObjectsPerClass.png)
 ### EDA Summary
 The training data set contains 1719 and the validation data set 198 individual pictures. According to the histogram plot as well as to the median in the descriptive statistics, the validation data set generally contains more objects per frame compared with the training data set.
 In both data set, there are almost no cyclists. Most of the objects are vehicles.
 The average image brightness is quite comparable in both data sets, though the validation set does not contain really dim images.
+In the training data set, the proportions of the object number per class is quite different. The majority of ground truth objects in the training data are vehicles (29710), there are less pedestrians (8355) and only a few cyclists (214). According to this (machine learning course)[https://developers.google.com/machine-learning/data-prep/construct/sampling-splitting/imbalanced-data?hl=en], the dataset is extremely imbalanced and special attention is needed when training the model. Thanks to the reviewer for pointing that important topic out.
 
 ## Training and evaluation of the object detection algorithm
 ### Reference experiment
@@ -158,4 +161,6 @@ ___
 
 
 ## Conclusion
-This first project of the Self Driving Car Engineer Nanodegree program has been a interesting and also challenging one. It's clear, that just the surface of the matter could be scratched. The project will serve as a starting point for further exploration in the field of object detection, especially for building intuition about interpreting the metrics and improving the models from there.
+This first project of the Self Driving Car Engineer Nanodegree program has been a interesting and also challenging one. It's clear, that just the surface of the matter could be scratched. The project will serve as a starting point for further exploration in the field of object detection, especially for building intuition about interpreting the metrics and improving the models from there.<br>
+The reviewer pointed out the topic of imbalanced training data. This will be a mandatory part in the data analysis of future projects, as well as considering any imbalanced training data when evaluating the model performance and making the appropriate changes along the machine learning workflow.
+
